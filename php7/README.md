@@ -1,5 +1,4 @@
-Requirements
-------------
+## Requirements
 
 **PHP 7:**
 
@@ -15,8 +14,7 @@ Composer is PHP's main package and dependency management tool.
 
 It can be downloaded here: https://getcomposer.org/download/
 
-Getting Started
----------------
+## Getting Started
 
 To begin the kata, install the dependencies and run `phpunit`:
 
@@ -44,8 +42,28 @@ use the `texttest_fixture` script:
 php fixtures/texttest_fixture.php
 ```
 
-Tips
-----
+## Tips
 
 PHPUnit has a very thorough reference manual. It would be particularly useful to explore the
 [Data Providers](https://phpunit.readthedocs.io/en/8.1/writing-tests-for-phpunit.html#data-providers) section.
+
+## Golden Master
+
+To run golden master test run the following command line
+
+```
+./vendor/bin/phpunit test/GoldenMasterTest.php
+```
+
+The first time will be created a file `.GOLDEN_MASTER` in the same
+directory of this file, the content of the file will be used to
+compare the future output, if something changes in the code the output
+produced by the `./fixtures/texttest_fixture.php` will change and
+golden master test will fail.
+
+To generate the `.GOLDEN_MASTER` file again you can cancel the file or
+run the test as follow
+
+```
+GOLDEN_MASTER=1 ./vendor/bin/phpunit test/GoldenMasterTest.php
+```
