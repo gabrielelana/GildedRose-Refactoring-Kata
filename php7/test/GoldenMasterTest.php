@@ -13,12 +13,17 @@ class GoldenMasterTest extends TestCase
 
     public function testOutputIsStillTheSame()
     {
-        $this->maybeCreateGoldenMaster();
         $expectedOutput = $this->previousGoldenMasterOutput();
 
-        $givenOutput = $this->currentGoldenMasterOutput();
+        $givenOutput = $this->currentOutput();
 
         $this->assertEquals($expectedOutput, $givenOutput);
+    }
+
+    private function previousGoldenMasterOutput(): string
+    {
+        $this->maybeCreateGoldenMaster();
+        return file_get_contents(self::GOLDEN_MASTER_FIXTURE);
     }
 
     private function maybeCreateGoldenMaster()
@@ -40,15 +45,10 @@ class GoldenMasterTest extends TestCase
 
     private function createGoldenMaster(): void
     {
-        file_put_contents(self::GOLDEN_MASTER_FIXTURE, $this->currentGoldenMasterOutput());
+        file_put_contents(self::GOLDEN_MASTER_FIXTURE, $this->currentOutput());
     }
 
-    private function previousGoldenMasterOutput(): string
-    {
-        return file_get_contents(self::GOLDEN_MASTER_FIXTURE);
-    }
-
-    private function currentGoldenMasterOutput(): string
+    private function currentOutput(): string
     {
         return shell_exec(implode(" ", ["php", self::GOLDEN_MASTER_SCRIPT, self::GOLDEN_MASTER_DAYS]));
     }
